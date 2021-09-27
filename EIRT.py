@@ -22,7 +22,7 @@ respath = 'C:/Users/konst/Box/ML_EIRT/Experiments/results/'
 
 # Define command and arguments
 command = 'C:/Program Files/R/R-4.0.2/bin/Rscript'
-path2script = 'C:/Users/konst/Box/ML_EIRT/Experiments/ExplonatoryIRT.R'
+path2script = 'C:/Users/konst/Box/ML_EIRT/Experiments/EIRT.R'
 
 ## function to read all the data in a folder
 dnames = os.listdir(datapath)
