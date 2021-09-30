@@ -20,7 +20,10 @@ from sklearn.metrics import roc_auc_score,average_precision_score,mean_squared_e
 ##-----------------------------------------------------------------------------
 ## root paths
 datapath = "C:/Users/konst/Box/ML_EIRT/Experiments/data/"
+datapath = "C:/Users/u0135479/Documents/GitHub/E-IRT-ML-comparison/data/"
 respath = 'C:/Users/konst/Box/ML_EIRT/Experiments/results/'
+respath = "C:/Users/u0135479/Documents/GitHub/E-IRT-ML-comparison/results/"
+
 ## function to read all the data in a folder
 dnames = os.listdir(datapath)
 ##-----------------------------------------------------------------------------
@@ -145,5 +148,3 @@ for dataset in dnames:
     
     
     
-    
-
