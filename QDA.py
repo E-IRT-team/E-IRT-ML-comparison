@@ -17,12 +17,16 @@ from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA
 from sklearn.metrics import roc_auc_score,average_precision_score,mean_squared_error
 
 
-##-----------------------------------------------------------------------------
 ## root paths
 datapath = "C:/Users/konst/Box/ML_EIRT/Experiments/data/"
+datapath = "C:/Users/u0135479/Documents/GitHub/E-IRT-ML-comparison/data/"
 respath = 'C:/Users/konst/Box/ML_EIRT/Experiments/results/'
+respath = "C:/Users/u0135479/Documents/GitHub/E-IRT-ML-comparison/results/"
+
 ## function to read all the data in a folder
 dnames = os.listdir(datapath)
+dnames.remove("latentfeatures4") #to drop when finalised
+dnames.remove("latentfeatures30")
 ##-----------------------------------------------------------------------------
 outer_folds = 10
 inner_folds = 3
@@ -85,7 +89,7 @@ def nested_cv_Classfier(X1,X2,Y):  #inner and outer folds are defined globally
 
         i = 0  # counting progress from completed outer folds
         for train, test in scenarios[group]:  # KFold.split is a generator object, outputs 2 ndarrays
-            print('---- outer fold', i, 'out of', outer_folds, '-----')
+            print('---- outer fold', i+1, 'out of', outer_folds, '-----')
             
             #we can also make a dict out of the following
             if group == "rows":
@@ -104,27 +108,30 @@ def nested_cv_Classfier(X1,X2,Y):  #inner and outer folds are defined globally
                 Xtotest = global_repr_model(X1,X2)[test]
                 Ytotest = Y.ravel()[test]
                 
-#            clf = GridSearchCV(estimator=SVMClassifier, param_grid=p_grid, 
-#                               cv=inner_cv, scoring='roc_auc',refit=True,iid=False)  # set iid=False to avoid firing warnings, if it happens
+            #clf = GridSearchCV(estimator=QDA())  # no tuning needed
 							   
             clf = QDA()
-            clf.fit(Xtotrain, Ytotrain)
-          
-         
-            ypred = clf.predict_proba(Xtotest)[:, 1]
-            
-            cv_scores[i,0] = roc_auc_score(Ytotest,ypred)
-            cv_scores[i,1] = average_precision_score(Ytotest,ypred)
-            cv_scores[i,2] = mean_squared_error(Ytotest,ypred)
+            try:
+                clf.fit(Xtotrain, Ytotrain)
+                ypred = clf.predict_proba(Xtotest)[:, 1]
+                
+                cv_scores[i,0] = roc_auc_score(Ytotest,ypred)
+                cv_scores[i,1] = average_precision_score(Ytotest,ypred)
+                cv_scores[i,2] = mean_squared_error(Ytotest,ypred)
+            except ValueError:
+                cv_scores[i,0] = np.nan
+                cv_scores[i,1] = np.nan
+                cv_scores[i,2] = np.nan
 
+            print("fold i:", cv_scores[i,:])
             i = i + 1
 
         np.save(respath + dataset + clname + group, cv_scores) # save cvscores
         np.savetxt(respath + dataset + clname + group, cv_scores.round(3)) #save round cv scores in txt 
             
-        print("AUROC test score:", cv_scores.mean(0)[0])
-        print("AUPR test score:", cv_scores.mean(0)[1])
-        print("MSE test score:", cv_scores.mean(0)[2])
+        print("AUROC test score:", np.nanmean(cv_scores[:,0]))
+        print("AUPR test score:", np.nanmean(cv_scores[:,1]))
+        print("MSE test score:", np.nanmean(cv_scores[:,2]))
         
     print("Analysis complete on the dataset with dimensions", Y.shape)
     my_results.append(cv_scores)

@@ -7,9 +7,10 @@
 #mydata <- read.csv(file = paste0(mypath,"trainset.csv"), header=T, sep=",", na.strings = "999")
 #mydatatest <-  read.csv(file = paste0(mypath,"testset.csv"), header=T, sep=",", na.strings = "999")
 
-mydata <- read.csv("C:/Users/konst/Box/ML_EIRT/Experiments/temp/trainset.csv",header=T,sep=",",na.strings = "999")
-mydatatest <- read.csv("C:/Users/konst/Box/ML_EIRT/Experiments/temp/testset.csv",header=T,sep=",",na.strings = "999")
-
+#mydata <- read.csv("C:/Users/konst/Box/ML_EIRT/Experiments/temp/trainset.csv",header=T,sep=",",na.strings = "999")
+mydata <- read.csv("C:/Users/u0135479/Documents/GitHub/E-IRT-ML-comparison/temp/trainset.csv",header=T,sep=",",na.strings = "999")
+#mydatatest <- read.csv("C:/Users/konst/Box/ML_EIRT/Experiments/temp/testset.csv",header=T,sep=",",na.strings = "999")
+mydatatest <- read.csv("C:/Users/u0135479/Documents/GitHub/E-IRT-ML-comparison/temp/testset.csv",header=T,sep=",",na.strings = "999")
 
 vn<-names(mydata)
 vn2<-vn[!(vn %in% c("y","X..student_id","item_id"))]

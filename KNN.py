@@ -26,6 +26,9 @@ respath = "C:/Users/u0135479/Documents/GitHub/E-IRT-ML-comparison/results/"
 
 ## function to read all the data in a folder
 dnames = os.listdir(datapath)
+dnames.remove("latentfeatures4") #to drop when finalised
+dnames.remove("latentfeatures30")
+
 ##-----------------------------------------------------------------------------
 # p_grid for kNN
 # empirical setting
@@ -88,11 +91,11 @@ def nested_cv_Classfier(X1,X2,Y):  #inner and outer folds are defined globally
 #        inner_cv_scores = np.zeros([outer_folds])
         cv_scores = np.zeros([outer_folds, 3])
         
-        KNNClassifier,clname = KNeighborsClassifier(algorithm='kd_tree'),"KNN"
+        KNNClassifier,clname = KNeighborsClassifier(algorithm='kd_tree', n_jobs=-1),"KNN"
 
         i = 0  # counting progress from completed outer folds
         for train, test in scenarios[group]:  # KFold.split is a generator object, outputs 2 ndarrays
-            print('---- outer fold', i, 'out of', outer_folds, '-----')
+            print('---- outer fold', i+1, 'out of', outer_folds, '-----')
             
             #we can also make a dict out of the following
             if group == "rows":
@@ -112,7 +115,7 @@ def nested_cv_Classfier(X1,X2,Y):  #inner and outer folds are defined globally
                 Ytotest = Y.ravel()[test]
                 
             clf = GridSearchCV(estimator=KNNClassifier, param_grid=p_grid, 
-                               cv=inner_cv, scoring='roc_auc',refit=True,iid=False)  # set iid=False to avoid firing warnings, if it happens
+                               cv=inner_cv, scoring='roc_auc',refit=True)  # set iid=False to avoid firing warnings, if it happens
             
             clf.fit(Xtotrain, Ytotrain)
             print("best params on train set:", clf.best_params_)
@@ -125,8 +128,8 @@ def nested_cv_Classfier(X1,X2,Y):  #inner and outer folds are defined globally
 
             i = i + 1
 
-#        np.save(respath + dataset + clname + group, cv_scores) # save cvscores
-#        np.savetxt(respath + dataset + clname + group, cv_scores.round(3)) #save round cv scores in txt 
+        np.save(respath + dataset + clname + group, cv_scores) # save cvscores
+        np.savetxt(respath + dataset + clname + group, cv_scores.round(3)) #save round cv scores in txt 
             
         print("AUROC test score:", cv_scores.mean(0)[0])
         print("AUPR test score:", cv_scores.mean(0)[1])
@@ -145,6 +148,4 @@ for dataset in dnames:
     N2,nof2 = X2.shape
     
     my_results = nested_cv_Classfier(X1,X2,Y)
-    
-    
     

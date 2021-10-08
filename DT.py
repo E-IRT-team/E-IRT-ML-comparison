@@ -17,12 +17,17 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import roc_auc_score,average_precision_score,mean_squared_error
 
 
-##-----------------------------------------------------------------------------
 ## root paths
 datapath = "C:/Users/konst/Box/ML_EIRT/Experiments/data/"
+datapath = "C:/Users/u0135479/Documents/GitHub/E-IRT-ML-comparison/data/"
 respath = 'C:/Users/konst/Box/ML_EIRT/Experiments/results/'
+respath = "C:/Users/u0135479/Documents/GitHub/E-IRT-ML-comparison/results/"
+
 ## function to read all the data in a folder
 dnames = os.listdir(datapath)
+dnames.remove("latentfeatures4") #to drop when finalised
+dnames.remove("latentfeatures30")
+##------------------------------------
 ##-----------------------------------------------------------------------------
 # p_grid for kNN
 # empirical setting
@@ -109,7 +114,7 @@ def nested_cv_Classfier(X1,X2,Y):  #inner and outer folds are defined globally
                 Ytotest = Y.ravel()[test]
                 
             clf = GridSearchCV(estimator=DTClassifier, param_grid=p_grid, 
-                               cv=inner_cv, scoring='roc_auc',refit=True,iid=False)  # set iid=False to avoid firing warnings, if it happens
+                               cv=inner_cv, scoring='roc_auc',refit=True)  # set iid=False to avoid firing warnings, if it happens
             
             clf.fit(Xtotrain, Ytotrain)
             print("best params on train set:", clf.best_params_)

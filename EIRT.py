@@ -18,11 +18,20 @@ from sklearn.metrics import roc_auc_score,average_precision_score,mean_squared_e
 ##-----------------------------------------------------------------------------
 ## root paths
 datapath = "C:/Users/konst/Box/ML_EIRT/Experiments/data/"
+datapath = 'C:/Users/u0135479/Documents/GitHub/E-IRT-ML-comparison/data/' 
+
 respath = 'C:/Users/konst/Box/ML_EIRT/Experiments/results/'
+respath = 'C:/Users/u0135479/Documents/GitHub/E-IRT-ML-comparison/results/'
 
 # Define command and arguments
 command = 'C:/Program Files/R/R-4.0.2/bin/Rscript'
+command = 'C:/Users/u0135479/Documents/R/R-4.0.2/bin/Rscript'
+
 path2script = 'C:/Users/konst/Box/ML_EIRT/Experiments/EIRT.R'
+path2script = 'C:/Users/u0135479/Documents/GitHub/E-IRT-ML-comparison/EIRT.R'
+
+#EIRT_temp_path = "C:/Users/konst/Box/ML_EIRT/Experiments/temp/" 
+EIRT_temp_path = "C:/Users/u0135479/Documents/GitHub/E-IRT-ML-comparison/temp/"
 
 ## function to read all the data in a folder
 dnames = os.listdir(datapath)
@@ -109,13 +118,12 @@ def nested_cv_Classfier(X1,X2,Y):  #inner and outer folds are defined globally
                 Xtotest = global_repr_model(X1,X2)[test]
                 Ytotest = Y.ravel()[test]
             
-            EIRT_temp_path = "C:/Users/konst/Box/ML_EIRT/Experiments/temp/" 
             # save the data to be loaded by R (EIRT)    
             np.savetxt(EIRT_temp_path+'trainset.csv',np.column_stack((Xtotrain,Ytotrain)),fmt='%.5f',delimiter=',',header=heads)
             np.savetxt(EIRT_temp_path+'testset.csv',np.column_stack((Xtotest,Ytotest)),fmt='%.5f',delimiter=',',header=heads)
 
             # Running EIRT   
-            print("Running EIRT")
+            print("Running EIRM")
             cmd = [command, path2script] # or 3
             x = subprocess.check_output(cmd, shell=True)
             ypred = np.asarray(x.split()).astype(float)
@@ -147,7 +155,3 @@ for dataset in dnames:
     
     my_results = nested_cv_Classfier(X1,X2,Y)
     
-    
-    
-    
-
