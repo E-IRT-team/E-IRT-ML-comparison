@@ -34,5 +34,16 @@ for s in settings: # 3 settings: rows, columns,
 
     final_auroc.append(auroc)
     final_aupr.append(aupr)
-    final_mse.append(mse)            
+    final_mse.append(mse)
+
+
+''' we store AUROC performance for further statistical testing'''
+import pandas as pd 
+
+df = pd.DataFrame()
+for line in final_auroc: ## the user can anyother measure 
+    df = df.append(line)
+df.columns = methodlist #synchronise column names with methodlist list
+    
+pd.DataFrame(df).to_csv("results_auroc.csv", index=False)
             
