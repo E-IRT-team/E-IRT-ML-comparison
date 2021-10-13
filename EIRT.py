@@ -99,7 +99,7 @@ def nested_cv_Classfier(X1,X2,Y):  #inner and outer folds are defined globally
 
         i = 0  # counting progress from completed outer folds
         for train, test in scenarios[group]:  # KFold.split is a generator object, outputs 2 ndarrays
-            print('---- outer fold', i, 'out of', outer_folds, '-----')
+            print('---- outer fold', i+1, 'out of', outer_folds, '-----')
             
             #we can also make a dict out of the following
             if group == "rows":
@@ -125,8 +125,9 @@ def nested_cv_Classfier(X1,X2,Y):  #inner and outer folds are defined globally
             # Running EIRT   
             print("Running EIRM")
             cmd = [command, path2script] # or 3
-            x = subprocess.check_output(cmd, shell=True)
-            ypred = np.asarray(x.split()).astype(float)
+            x = subprocess.check_output(cmd, shell=True).decode("utf-8")
+            clean_x = x.split()[-len(Ytotest):]
+            ypred = np.asarray(clean_x).astype(float)
             
             cv_scores[i,0] = roc_auc_score(Ytotest,ypred)
             cv_scores[i,1] = average_precision_score(Ytotest,ypred)

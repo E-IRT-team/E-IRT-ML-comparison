@@ -9,7 +9,7 @@ import numpy as np
 from pprint import pprint        
 
 datalist = ['noise30','noise60','sizesmall','sizemedium'] #'latentfeatures4','latentfeatures30'
-methodlist = ['MLP','KNN','DT','RF','GB','QDA'] # EIRT
+methodlist = ['EIRT', 'MLP','KNN','DT','RF','GB','QDA'] # 
 settings = ['rows','columns','items']
 
 path = 'C:/Users/u0135479/Documents/GitHub/E-IRT-ML-comparison/Results/' 
@@ -45,5 +45,5 @@ for line in final_auroc: ## the user can anyother measure
     df = df.append(line)
 df.columns = methodlist #synchronise column names with methodlist list
     
-pd.DataFrame(df).to_csv("results_auroc.csv", index=False)
+#pd.DataFrame(df).to_csv("results_auroc.csv", index=False)
             
