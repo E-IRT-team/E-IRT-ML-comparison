@@ -12,7 +12,7 @@ pdfname = paste(filename, "_res.pdf", sep = "")
 # simul data read
 data <- read.csv(csvname, header = TRUE)
 
-cols.totest <- c("MLP",	"KNN","DT",	"RF",	"GB",	"QDA", "EIRT")
+cols.totest <- c("MLP",	"KNN","DT",	"RF",	"GB",	"QDA", "EIRM")
 
 data.totest <- data[,cols.totest]
 #clean.data <-clean.data[,sel.cols]

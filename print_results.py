@@ -8,8 +8,8 @@ Created on Mon Aug 17 15:11:19 2020
 import numpy as np
 from pprint import pprint        
 
-datalist = ['noise30','noise60','sizesmall','sizemedium'] #'latentfeatures4','latentfeatures30'
-methodlist = ['EIRT', 'MLP','KNN','DT','RF','GB','QDA'] # 
+datalist = ['noise30','noise60','sizesmall','sizemedium']
+methodlist = ['EIRM', 'MLP','KNN','DT','RF','GB','QDA']
 settings = ['rows','columns','items']
 
 path = 'C:/Users/u0135479/Documents/GitHub/E-IRT-ML-comparison/Results/' 
@@ -41,9 +41,9 @@ for s in settings: # 3 settings: rows, columns,
 import pandas as pd 
 
 df = pd.DataFrame()
-for line in final_auroc: ## the user can anyother measure 
+for line in final_aupr: ## the user can anyother measure 
     df = df.append(line)
 df.columns = methodlist #synchronise column names with methodlist list
     
-#pd.DataFrame(df).to_csv("results_auroc.csv", index=False)
+pd.DataFrame(df).to_csv("results_aupr.csv", index=False)
             
