@@ -29,7 +29,7 @@ for s in settings: # 3 settings: rows, columns,
         auroc.append(temp_auroc)
         aupr.append(temp_aupr)
         mse.append(temp_mse)
-    pprint(auroc) 
+    pprint(mse) 
     print(" ")
 
     final_auroc.append(auroc)
@@ -41,9 +41,9 @@ for s in settings: # 3 settings: rows, columns,
 import pandas as pd 
 
 df = pd.DataFrame()
-for line in final_aupr: ## the user can anyother measure 
+for line in final_mse: ## the user can anyother measure 
     df = df.append(line)
 df.columns = methodlist #synchronise column names with methodlist list
     
-pd.DataFrame(df).to_csv("results_aupr.csv", index=False)
+pd.DataFrame(df).to_csv("results_mse.csv", index=False)
             
