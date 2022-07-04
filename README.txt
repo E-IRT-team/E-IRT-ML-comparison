@@ -1,5 +1,6 @@
 This is GitHub folder for reproducing the results from:
 "Comparing the Prediction Performance of Item Response Theory and Machine Learning Methods on Item Responses for Educational Assessments"
+Published in Behavioural Research Methods
 
 preprequisites:
 
